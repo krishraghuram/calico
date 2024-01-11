@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextInput as RNTextInput, View } from 'react-native';
+import { TextInput as RNTextInput, View, ViewProps } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { TimePickerModal } from 'react-native-paper-dates';
 
@@ -8,7 +8,7 @@ type TimeInputState = {
     minutes: number;
 }
 
-type TimeInputProps = {
+type TimeInputProps = ViewProps & {
     onChangeTime: (time: TimeInputState) => void
     label: string
 }
@@ -23,7 +23,7 @@ const formatTime = (time: TimeInputState | undefined) => {
     }
 }
 
-const TimeInput = (props: TimeInputProps) => {
+const TimePickerInput = (props: TimeInputProps) => {
     const timeTextInputRef = React.useRef<RNTextInput>(null);
     const [time, setTime] = React.useState<TimeInputState | undefined>(undefined);
     const [visible, setVisible] = React.useState(false);
@@ -49,6 +49,7 @@ const TimeInput = (props: TimeInputProps) => {
                 value={formatTime(time)}
                 onFocus={() => setVisible(true)}
                 caretHidden={true}
+                style={props.style}
             />
             <TimePickerModal
                 visible={visible}
@@ -61,4 +62,4 @@ const TimeInput = (props: TimeInputProps) => {
     );
 };
 
-export { TimeInput };
+export { TimePickerInput };
