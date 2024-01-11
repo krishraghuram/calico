@@ -42,13 +42,6 @@ export default function App() {
         <View style={{ height: '40%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,0,255)' }}>
           <Text>Welcome to Calico!!!</Text>
         </View>
-        <DatePickerInput
-          locale="en"
-          label="Date"
-          value={date}
-          onChange={(d) => setDate(d)}
-          presentationStyle="formSheet"
-        />
         <CalicoFAB />
       </View>
     </PaperProvider>
