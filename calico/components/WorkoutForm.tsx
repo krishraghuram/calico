@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { TextInput as RNTextInput, View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
 import { Text, TextInput, HelperText, SegmentedButtons, useTheme } from 'react-native-paper';
@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
     }
 });
 
-import DropDownPicker from 'react-native-dropdown-picker';
-
 
 const WORKOUT_TYPES = [
     "Gym",
@@ -35,21 +33,21 @@ const WORKOUT_INTENSITY = [
 const WorkoutForm = () => {
     const theme = useTheme();
 
-    const [type, setType] = React.useState<string>(WORKOUT_TYPES[0]);
-    const [intensity, setIntensity] = React.useState<string>(WORKOUT_INTENSITY[0]);
-    const [duration, setDuration] = React.useState<string>("");
-    const [calories, setCalories] = React.useState<string>("");
+    const [type, setType] = useState<string>(WORKOUT_TYPES[0]);
+    const [intensity, setIntensity] = useState<string>(WORKOUT_INTENSITY[0]);
+    const [duration, setDuration] = useState<string>("");
+    const [calories, setCalories] = useState<string>("");
 
-    const [date, setDate] = React.useState<DatePickerInputState | undefined>(undefined);
-    const [time, setTime] = React.useState<TimePickerInputState | undefined>(undefined);
+    const [date, setDate] = useState<DatePickerInputState | undefined>(undefined);
+    const [time, setTime] = useState<TimePickerInputState | undefined>(undefined);
     // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes));
     // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes).toLocaleDateString("en-US", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
 
-    const [showMoreFields, setShowMoreFields] = React.useState<boolean>(false);
-    const [hrMax, setHrMax] = React.useState<string>("");
-    const [hrAvg, setHrAvg] = React.useState<string>("");
-    const [fatBurnPercent, setFatBurnPercent] = React.useState<string>("");
-    const [comments, setComments] = React.useState<string>("");
+    const [showMoreFields, setShowMoreFields] = useState<boolean>(false);
+    const [hrMax, setHrMax] = useState<string>("");
+    const [hrAvg, setHrAvg] = useState<string>("");
+    const [fatBurnPercent, setFatBurnPercent] = useState<string>("");
+    const [comments, setComments] = useState<string>("");
 
     return (
         <KeyboardAvoidingView style={styles.container}>
