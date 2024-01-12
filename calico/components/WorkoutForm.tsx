@@ -19,6 +19,16 @@ const styles = StyleSheet.create({
     }
 });
 
+const WORKOUTS = [
+    "Gym - Cardio - Low Intensity",
+    "Gym - Cardio - Medium Intensity",
+    "Gym - Cardio - High Intensity",
+    "Gym - Upper",
+    "Gym - Lower",
+    "Gym - Functional",
+    "Gym - Session with Will",
+    "Bike Ride",
+]
 
 const WORKOUT_TYPES = [
     "Gym",
@@ -33,6 +43,8 @@ const WORKOUT_INTENSITY = [
 const WorkoutForm = () => {
     const theme = useTheme();
 
+    const [workout, setWorkout] = useState<string>(WORKOUTS[0]);
+    const [showWorkoutDropdown, setShowWorkoutDropdown] = useState<boolean>(false);
     const [type, setType] = useState<string>(WORKOUT_TYPES[0]);
     const [intensity, setIntensity] = useState<string>(WORKOUT_INTENSITY[0]);
     const [duration, setDuration] = useState<string>("");
@@ -52,6 +64,18 @@ const WorkoutForm = () => {
     return (
         <KeyboardAvoidingView style={styles.container}>
             <ScrollView>
+                <View style={styles.item}>
+                    <DropDown
+                        label='Workout'
+                        mode='flat'
+                        visible={showWorkoutDropdown}
+                        showDropDown={() => setShowWorkoutDropdown(true)}
+                        onDismiss={() => setShowWorkoutDropdown(false)}
+                        value={workout}
+                        setValue={setWorkout}
+                        list={WORKOUTS.map((i) => ({ value: i, label: i }))}
+                    />
+                </View>
                 <SegmentedButtons
                     value={type}
                     onValueChange={setType}
