@@ -45,8 +45,6 @@ const WorkoutForm = () => {
 
     const [workout, setWorkout] = useState<string>(WORKOUTS[0]);
     const [showWorkoutDropdown, setShowWorkoutDropdown] = useState<boolean>(false);
-    const [type, setType] = useState<string>(WORKOUT_TYPES[0]);
-    const [intensity, setIntensity] = useState<string>(WORKOUT_INTENSITY[0]);
     const [duration, setDuration] = useState<string>("");
     const [calories, setCalories] = useState<string>("");
 
@@ -76,18 +74,6 @@ const WorkoutForm = () => {
                         list={WORKOUTS.map((i) => ({ value: i, label: i }))}
                     />
                 </View>
-                <SegmentedButtons
-                    value={type}
-                    onValueChange={setType}
-                    buttons={WORKOUT_TYPES.map((i) => ({ value: i, label: i }))}
-                    style={styles.item}
-                />
-                <SegmentedButtons
-                    value={intensity}
-                    onValueChange={setIntensity}
-                    buttons={WORKOUT_INTENSITY.map((i) => ({ value: i, label: i }))}
-                    style={styles.item}
-                />
                 <TextInput
                     label="Duration (mins)"
                     value={duration}
