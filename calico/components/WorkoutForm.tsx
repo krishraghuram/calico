@@ -61,6 +61,9 @@ const WorkoutForm = () => {
 
     return (
         <KeyboardAvoidingView style={styles.container}>
+            <Text variant="titleLarge" style={styles.item}>
+                Add a Workout
+            </Text>
             <ScrollView>
                 <View style={styles.item}>
                     <DropDown

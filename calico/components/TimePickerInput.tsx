@@ -50,6 +50,7 @@ const TimePickerInput = (props: TimePickerInputProps) => {
                 onFocus={() => setVisible(true)}
                 caretHidden={true}
                 style={props.style}
+                right={<TextInput.Icon icon="clock-time-four" />}
             />
             <TimePickerModal
                 visible={visible}
