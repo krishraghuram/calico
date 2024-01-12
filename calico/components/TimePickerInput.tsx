@@ -3,17 +3,17 @@ import { TextInput as RNTextInput, View, ViewProps } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { TimePickerModal } from 'react-native-paper-dates';
 
-type TimeInputState = {
+type TimePickerInputState = {
     hours: number;
     minutes: number;
 }
 
-type TimeInputProps = ViewProps & {
-    onChangeTime: (time: TimeInputState) => void
+type TimePickerInputProps = ViewProps & {
+    onChangeTime: (time: TimePickerInputState) => void
     label: string
 }
 
-const formatTime = (time: TimeInputState | undefined) => {
+const formatTime = (time: TimePickerInputState | undefined) => {
     if (time && time.hours && time.minutes) {
         const locale = 'en-US';
         const options = { minimumIntegerDigits: 2, useGrouping: false };
@@ -23,14 +23,14 @@ const formatTime = (time: TimeInputState | undefined) => {
     }
 }
 
-const TimePickerInput = (props: TimeInputProps) => {
+const TimePickerInput = (props: TimePickerInputProps) => {
     const timeTextInputRef = React.useRef<RNTextInput>(null);
-    const [time, setTime] = React.useState<TimeInputState | undefined>(undefined);
+    const [time, setTime] = React.useState<TimePickerInputState | undefined>(undefined);
     const [visible, setVisible] = React.useState(false);
     const onDismiss = React.useCallback(() => {
         timeTextInputRef.current?.blur()
         setVisible(false)
-    }, [setVisible])
+    }, [timeTextInputRef, setVisible])
     const onConfirm = React.useCallback(
         (params: any) => {
             timeTextInputRef.current?.blur()
@@ -39,7 +39,7 @@ const TimePickerInput = (props: TimeInputProps) => {
             setTime(newtime)
             props.onChangeTime(newtime);
         },
-        [setVisible]
+        [timeTextInputRef, setVisible, setTime, props.onChangeTime]
     );
     return (
         <View>
@@ -62,4 +62,4 @@ const TimePickerInput = (props: TimeInputProps) => {
     );
 };
 
-export { TimePickerInput };
+export { TimePickerInput, TimePickerInputProps, TimePickerInputState };

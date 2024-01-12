@@ -38,7 +38,6 @@ export default function App() {
 
   // Refer https://web-ridge.github.io/react-native-paper-dates/docs/intro/#register-translation
   registerTranslation('en', en);
-  console.log("Hello World");
   return (
     <PaperProvider theme={theme}>
       <StatusBar style="auto" />

@@ -1,13 +1,7 @@
 import * as React from 'react';
 import { TextInput as RNTextInput, View, StyleSheet } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
-import { TimePickerInput } from './TimePickerInput';
-import { DatePickerInput, DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
-
-type TimePickerState = {
-    hours: string;
-    minutes: string;
-}
+import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
+import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
 
 const styles = StyleSheet.create({
     container: {
@@ -16,55 +10,25 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center',
         width: '90%'
-    },
-    datePickerContainer: {
-        height: 80
     }
 });
 
 const WorkoutForm = () => {
-    const [date, setDate] = React.useState<Date | undefined>(undefined);
-    const [datePickerVisible, setDatePickerVisible] = React.useState(false);
-    const onDismiss = React.useCallback(() => {
-        setDatePickerVisible(false);
-    }, [setDatePickerVisible]);
-    const onConfirm = React.useCallback(
-        (params: any) => {
-            setDatePickerVisible(false);
-            setDate(params.date);
-        },
-        [setDatePickerVisible, setDate]
-    );
-    const timeTextInputRef = React.useRef<RNTextInput>(null);
-    const [time, setTime] = React.useState<TimePickerState | undefined>(undefined);
-    const [timePickerVisible, setTimePickerVisible] = React.useState(false);
-    const onTimePickerDismiss = React.useCallback(() => {
-        timeTextInputRef.current?.blur()
-        setTimePickerVisible(false)
-    }, [setTimePickerVisible])
-    const onTimePickerConfirm = React.useCallback(
-        (params: any) => {
-            timeTextInputRef.current?.blur()
-            setTimePickerVisible(false);
-            setTime({ hours: params.hours, minutes: params.minutes })
-        },
-        [setTimePickerVisible]
-    );
+    const [date, setDate] = React.useState<DatePickerInputState | undefined>(undefined);
+    const [time, setTime] = React.useState<TimePickerInputState | undefined>(undefined);
+
+    // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes));
+    // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes).toLocaleDateString("en-US", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
 
     return (
         <View style={styles.container}>
-            <View style={styles.datePickerContainer}>
-                <DatePickerInput
-                    locale="en"
-                    label="Date"
-                    value={date}
-                    onChange={(d) => setDate(d)}
-                    inputMode="start"
-                />
-            </View>
+            <DatePickerInput
+                onChangeDate={(date) => { setDate(date) }}
+                label='Date'
+            />
             <TimePickerInput
-                label="Time"
-                onChangeTime={(time) => { console.log(time) }}
+                label='Time'
+                onChangeTime={(time) => { setTime(time) }}
             />
         </View>
 
