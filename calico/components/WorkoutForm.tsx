@@ -98,16 +98,12 @@ const WorkoutForm = () => {
                     onChangeTime={(time) => { setTime(time) }}
                     style={styles.item}
                 />
-                {
-                    !showMoreFields &&
-                    <Text
-                        variant="labelLarge"
-                        style={{ color: theme.colors.primary }}
-                        onPress={() => { setShowMoreFields(true) }}>
-                        More fields
-                    </Text>
-
-                }
+                <Text
+                    variant="labelLarge"
+                    style={[styles.item, { color: theme.colors.primary }]}
+                    onPress={() => { setShowMoreFields(!showMoreFields) }}>
+                    {!showMoreFields ? 'More Fields' : 'Less Fields'}
+                </Text>
                 {
                     showMoreFields &&
                     <>
