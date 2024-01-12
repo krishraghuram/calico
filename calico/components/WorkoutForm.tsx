@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextInput as RNTextInput, View } from 'react-native';
+import { TextInput as RNTextInput, View, StyleSheet } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { TimePickerInput } from './TimePickerInput';
 import { DatePickerInput, DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
@@ -8,6 +8,19 @@ type TimePickerState = {
     hours: string;
     minutes: string;
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        width: '90%'
+    },
+    datePickerContainer: {
+        height: 80
+    }
+});
 
 const WorkoutForm = () => {
     const [date, setDate] = React.useState<Date | undefined>(undefined);
@@ -39,21 +52,22 @@ const WorkoutForm = () => {
     );
 
     return (
-        <View>
-            <DatePickerInput
-                locale="en"
-                label="Date"
-                value={date}
-                onChange={(d) => setDate(d)}
-                inputMode="start"
-                style={{ paddingBottom: 24 }}
-            />
-            <TextInput />
+        <View style={styles.container}>
+            <View style={styles.datePickerContainer}>
+                <DatePickerInput
+                    locale="en"
+                    label="Date"
+                    value={date}
+                    onChange={(d) => setDate(d)}
+                    inputMode="start"
+                />
+            </View>
             <TimePickerInput
                 label="Time"
                 onChangeTime={(time) => { console.log(time) }}
             />
         </View>
+
     );
 };
 

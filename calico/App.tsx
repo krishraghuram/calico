@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
 import { CalicoFAB } from './components/CalicoFAB';
 import { WorkoutForm } from './components/WorkoutForm';
 import { en, registerTranslation } from 'react-native-paper-dates'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView as RNSafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import Constants from 'expo-constants';
 
 const theme = {
   ...DefaultTheme,
@@ -15,6 +18,15 @@ const theme = {
     secondary: 'yellow',
   },
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default function App() {
   // return (
@@ -30,9 +42,9 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <StatusBar style="auto" />
-      <RNSafeAreaView>
+      <SafeAreaView style={styles.container}>
         <WorkoutForm />
-      </RNSafeAreaView>
+      </SafeAreaView>
     </PaperProvider>
   );
 }
