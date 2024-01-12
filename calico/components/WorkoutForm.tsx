@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextInput as RNTextInput, View, StyleSheet } from 'react-native';
+import { TextInput as RNTextInput, View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
 import { Text, TextInput, HelperText, SegmentedButtons, useTheme } from 'react-native-paper';
@@ -47,84 +47,99 @@ const WorkoutForm = () => {
 
     const [showMoreFields, setShowMoreFields] = React.useState<boolean>(false);
 
-    return (
-        <View style={styles.container}>
-            <SegmentedButtons
-                value={type}
-                onValueChange={setType}
-                buttons={WORKOUT_TYPES.map((i) => ({ value: i, label: i }))}
-                style={{ marginBottom: 10 }}
-            />
-            <SegmentedButtons
-                value={intensity}
-                onValueChange={setIntensity}
-                buttons={WORKOUT_INTENSITY.map((i) => ({ value: i, label: i }))}
-                style={{ marginBottom: 10 }}
-            />
-            <TextInput
-                label="Duration (mins)"
-                value={duration}
-                onChangeText={text => setDuration(text)}
-                inputMode='numeric'
-                style={{ marginBottom: 10 }}
-            />
-            {
-                durationInvalid() && <HelperText type="error" visible={true}>
-                    Duration must be a number!
-                </HelperText>
-            }
-            <TextInput
-                label="Calories"
-                value={calories}
-                onChangeText={text => setCalories(text)}
-                inputMode='numeric'
-            />
-            {
-                caloriesInvalid() && <HelperText type="error" visible={true}>
-                    Calories must be a number!
-                </HelperText>
-            }
-            <DatePickerInput
-                onChangeDate={(date) => { setDate(date) }}
-                label='Date'
-            />
-            <TimePickerInput
-                label='Time'
-                onChangeTime={(time) => { setTime(time) }}
-                style={{ marginBottom: 10 }}
-            />
-            {
-                !showMoreFields &&
-                <Text
-                    variant="labelLarge"
-                    style={{ color: theme.colors.primary }}
-                    onPress={() => { setShowMoreFields(true) }}>
-                    More fields
-                </Text>
+    const [hrMax, setHrMax] = React.useState<string>("");
+    const [hrAvg, setHrAvg] = React.useState<string>("");
+    const [fatBurnPercent, setFatBurnPercent] = React.useState<string>("");
+    const [comments, setComments] = React.useState<string>("");
 
-            }
-            {
-                showMoreFields &&
-                <>
-                    <TextInput
-                        label="Heart Rate (max)"
-                        value={""}
-                    />
-                    <TextInput
-                        label="Heart Rate (avg)"
-                        value={""}
-                    />
-                    <TextInput
-                        label="Fat Burn %"
-                        value={""}
-                    />
-                    <TextInput
-                        label="Comments/Notes"
-                        value={""}
-                    />
-                </>
-            }
-        </View>
+    return (
+        <KeyboardAvoidingView style={styles.container}>
+            <ScrollView>
+                <SegmentedButtons
+                    value={type}
+                    onValueChange={setType}
+                    buttons={WORKOUT_TYPES.map((i) => ({ value: i, label: i }))}
+                    style={{ marginBottom: 10 }}
+                />
+                <SegmentedButtons
+                    value={intensity}
+                    onValueChange={setIntensity}
+                    buttons={WORKOUT_INTENSITY.map((i) => ({ value: i, label: i }))}
+                    style={{ marginBottom: 10 }}
+                />
+                <TextInput
+                    label="Duration (mins)"
+                    value={duration}
+                    onChangeText={text => setDuration(text)}
+                    inputMode='numeric'
+                    style={{ marginBottom: 10 }}
+                />
+                {
+                    durationInvalid() && <HelperText type="error" visible={true}>
+                        Duration must be a number!
+                    </HelperText>
+                }
+                <TextInput
+                    label="Calories"
+                    value={calories}
+                    onChangeText={text => setCalories(text)}
+                    inputMode='numeric'
+                />
+                {
+                    caloriesInvalid() && <HelperText type="error" visible={true}>
+                        Calories must be a number!
+                    </HelperText>
+                }
+                <DatePickerInput
+                    onChangeDate={(date) => { setDate(date) }}
+                    label='Date'
+                />
+                <TimePickerInput
+                    label='Time'
+                    onChangeTime={(time) => { setTime(time) }}
+                    style={{ marginBottom: 10 }}
+                />
+                {
+                    !showMoreFields &&
+                    <Text
+                        variant="labelLarge"
+                        style={{ color: theme.colors.primary }}
+                        onPress={() => { setShowMoreFields(true) }}>
+                        More fields
+                    </Text>
+
+                }
+                {
+                    showMoreFields &&
+                    <>
+                        <TextInput
+                            label="Heart Rate (max)"
+                            value={hrMax}
+                            onChangeText={text => setHrMax(text)}
+                            inputMode='numeric'
+                        />
+                        <TextInput
+                            label="Heart Rate (avg)"
+                            value={hrAvg}
+                            onChangeText={text => setHrAvg(text)}
+                            inputMode='numeric'
+                        />
+                        <TextInput
+                            label="Fat Burn %"
+                            value={fatBurnPercent}
+                            onChangeText={text => setFatBurnPercent(text)}
+                            inputMode='numeric'
+                        />
+                        <TextInput
+                            label="Comments/Notes"
+                            value={comments}
+                            onChangeText={text => setComments(text)}
+                            multiline
+                        />
+                    </>
+                }
+            </ScrollView>
+        </KeyboardAvoidingView>
 
     );
 };
