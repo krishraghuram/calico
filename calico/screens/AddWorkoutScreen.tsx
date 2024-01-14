@@ -1,7 +1,5 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CalicoFAB } from '../components/CalicoFAB';
 import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
 import { WorkoutForm } from '../components/WorkoutForm';
 
 const styles = StyleSheet.create({

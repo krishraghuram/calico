@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
-import { Text, TextInput, HelperText, useTheme, Button } from 'react-native-paper';
+import { Text, TextInput, HelperText, Button } from 'react-native-paper';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        // alignItems: 'center',
-        // justifyContent: 'center',
         width: '90%',
         paddingVertical: 20
     },
