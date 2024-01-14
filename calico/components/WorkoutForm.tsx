@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
-import { Text, TextInput, HelperText, SegmentedButtons, useTheme } from 'react-native-paper';
+import { Text, TextInput, HelperText, SegmentedButtons, useTheme, Button } from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
 
 const styles = StyleSheet.create({
@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     },
     item: {
         marginBottom: 10
+    },
+    button: {
+        width: '50%'
     }
 });
 
@@ -28,16 +31,6 @@ const WORKOUTS = [
     "Gym - Functional",
     "Gym - Session with Will",
     "Bike Ride",
-]
-
-const WORKOUT_TYPES = [
-    "Gym",
-    "Bike Ride",
-]
-const WORKOUT_INTENSITY = [
-    "High",
-    "Medium",
-    "Low",
 ]
 
 const WorkoutForm = () => {
@@ -148,6 +141,13 @@ const WorkoutForm = () => {
                         />
                     </>
                 }
+                <Button
+                    mode="contained"
+                    onPress={() => console.log('Pressed')}
+                    style={styles.button}
+                >
+                    Submit
+                </Button>
             </ScrollView>
         </KeyboardAvoidingView>
 
