@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { TextInput, View, ViewProps, StyleSheet } from 'react-native';
+import { useCallback, useState } from 'react';
+import { View, ViewProps, StyleSheet } from 'react-native';
 import { DatePickerInput as RNPDDatePickerInput } from 'react-native-paper-dates';
 
 type DatePickerInputState = {
@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
 });
 
 const DatePickerInput = (props: DatePickerInputProps) => {
-    const [date, setDate] = React.useState<Date | undefined>(undefined);
+    const [date, setDate] = useState<Date | undefined>(undefined);
 
-    const onChange = React.useCallback(
+    const onChange = useCallback(
         (newdate: Date | undefined) => {
             setDate(newdate);
             if (newdate !== undefined) {
