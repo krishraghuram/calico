@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { MD3LightTheme as DefaultTheme, PaperProvider, useTheme } from 'react-native-paper';
+import { PaperProvider } from 'react-native-paper';
 import { en, registerTranslation } from 'react-native-paper-dates'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,15 +8,7 @@ import { ScreenNames } from './screens/ScreenNames';
 import { AddWorkoutScreen } from './screens/AddWorkoutScreen';
 import { AddWeightScreen } from './screens/AddWeightScreen';
 import { AddFoodScreen } from './screens/AddFoodScreen';
-
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    // primary: 'tomato',
-    // secondary: 'yellow',
-  },
-};
+import { CALICO_THEME } from './themes';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +16,7 @@ export default function App() {
   // Refer https://web-ridge.github.io/react-native-paper-dates/docs/intro/#register-translation
   registerTranslation('en', en);
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={CALICO_THEME}>
       <StatusBar style="auto" />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>

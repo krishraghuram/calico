@@ -25,8 +25,6 @@ const WeightForm = () => {
 
     const [date, setDate] = useState<DatePickerInputState | undefined>(undefined);
     const [time, setTime] = useState<TimePickerInputState | undefined>(undefined);
-    // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes));
-    // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes).toLocaleDateString("en-US", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
 
     const [comments, setComments] = useState<string>("");
 

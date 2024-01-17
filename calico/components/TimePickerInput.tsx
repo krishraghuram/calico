@@ -14,10 +14,10 @@ type TimePickerInputProps = ViewProps & {
 }
 
 const formatTime = (time: TimePickerInputState | undefined) => {
-    if (time && time.hours && time.minutes) {
+    if (time !== undefined) {
         const locale = 'en-US';
         const options = { minimumIntegerDigits: 2, useGrouping: false };
-        return `${time?.hours.toLocaleString(locale, options)}:${time?.minutes.toLocaleString(locale, options)}`
+        return `${time.hours.toLocaleString(locale, options)}:${time.minutes.toLocaleString(locale, options)}`
     } else {
         return "";
     }

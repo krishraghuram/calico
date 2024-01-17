@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
-import { Text, TextInput, HelperText, SegmentedButtons, useTheme, Button } from 'react-native-paper';
+import { Text, TextInput, HelperText, useTheme, Button } from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const WORKOUTS = [
+const WORKOUT_TYPES = [
     "Gym - Cardio - Low Intensity",
     "Gym - Cardio - Medium Intensity",
     "Gym - Cardio - High Intensity",
@@ -29,26 +31,66 @@ const WORKOUTS = [
     "Gym - Functional",
     "Gym - Session with Will",
     "Bike Ride",
-]
+] as const
+
+type WorkoutType = typeof WORKOUT_TYPES[number];
+type Workout = {
+    type: WorkoutType;
+    duration: number;
+    calories: number;
+    date: DatePickerInputState;
+    time: TimePickerInputState;
+    hrMax?: number;
+    hrAvg?: number;
+    fatBurnPercent?: number;
+    comments?: string;
+}
+
+const addWorkout = async (workout: Workout) => {
+    try {
+        const d = workout.date;
+        const t = workout.time;
+        const date = new Date(d.year, d.month, d.date, t.hours, t.minutes)
+        const dateString = date.toISOString();
+        const key = `workout/${dateString}`
+        await AsyncStorage.setItem(key, JSON.stringify(workout));
+    } catch (e) {
+        // TODO: Error Snackbar
+        console.log("Failed to save workout!");
+    }
+}
 
 const WorkoutForm = () => {
     const theme = useTheme();
-
-    const [workout, setWorkout] = useState<string>(WORKOUTS[0]);
+    const navigation = useNavigation();
+    const [workoutType, setWorkoutType] = useState<WorkoutType>(WORKOUT_TYPES[0]);
     const [showWorkoutDropdown, setShowWorkoutDropdown] = useState<boolean>(false);
     const [duration, setDuration] = useState<string>("");
     const [calories, setCalories] = useState<string>("");
 
     const [date, setDate] = useState<DatePickerInputState | undefined>(undefined);
     const [time, setTime] = useState<TimePickerInputState | undefined>(undefined);
-    // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes));
-    // console.log(new Date(date?.year, date?.month, date?.date, time?.hours, time?.minutes).toLocaleDateString("en-US", { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
 
     const [showMoreFields, setShowMoreFields] = useState<boolean>(false);
     const [hrMax, setHrMax] = useState<string>("");
     const [hrAvg, setHrAvg] = useState<string>("");
     const [fatBurnPercent, setFatBurnPercent] = useState<string>("");
     const [comments, setComments] = useState<string>("");
+
+    console.log(time);
+
+    useEffect(() => {
+        async function fetchMyAPI() {
+            const d = date;
+            const t = time;
+            const key = `workout/${d?.year}-${d?.month}-${d?.date}/${t?.hours}:${t?.minutes}`
+            const value = await AsyncStorage.getItem(key);
+            console.log("---");
+            console.log(JSON.stringify(value));
+            console.log("---");
+        }
+        fetchMyAPI()
+    }, []);
 
     return (
         <KeyboardAvoidingView style={styles.container}>
@@ -63,9 +105,9 @@ const WorkoutForm = () => {
                         visible={showWorkoutDropdown}
                         showDropDown={() => setShowWorkoutDropdown(true)}
                         onDismiss={() => setShowWorkoutDropdown(false)}
-                        value={workout}
-                        setValue={setWorkout}
-                        list={WORKOUTS.map((i) => ({ value: i, label: i }))}
+                        value={workoutType}
+                        setValue={setWorkoutType}
+                        list={WORKOUT_TYPES.map((i) => ({ value: i, label: i }))}
                     />
                 </View>
                 <TextInput
@@ -141,13 +183,30 @@ const WorkoutForm = () => {
                 }
                 <Button
                     mode="contained"
-                    onPress={() => console.log('Pressed')}
+                    onPress={async () => {
+                        if (date && time) {
+                            await addWorkout({
+                                type: workoutType,
+                                duration: Number(duration),
+                                calories: Number(calories),
+                                date: date,
+                                time: time,
+                                hrMax: Number(hrMax),
+                                hrAvg: Number(hrAvg),
+                                fatBurnPercent: Number(fatBurnPercent),
+                                comments: comments,
+                            });
+                            navigation.goBack();
+                        } else {
+                            console.log("TODO");
+                        }
+                    }}
                     style={styles.button}
                 >
                     Submit
                 </Button>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView >
 
     );
 };
