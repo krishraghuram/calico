@@ -3,7 +3,7 @@ import { CalicoFAB } from '../components/CalicoFAB';
 import { StyleSheet, View } from 'react-native';
 import { Portal } from 'react-native-paper';
 import JSONTree from 'react-native-json-tree'
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { PALETTE } from '../themes';
@@ -27,6 +27,7 @@ const HomeScreen = () => {
         useCallback(
             () => {
                 async function loadData() {
+                    // TODO: Uncomment to clear database
                     // await AsyncStorage.clear();
                     setJson({});
                     const keys = await AsyncStorage.getAllKeys();
