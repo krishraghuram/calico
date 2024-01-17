@@ -2,29 +2,14 @@ import color from 'color';
 import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
 
 const palette = {
-    // 37, 100%, 40%
-    // 60, 100%, 40%
-    // 70, 100%, 40% to 87, 100%, 40%
-    // 93, 100%, 40% to 140, 100%, 40%
-    // 188, 100%, 40%
-    // 211, 100%, 40%
-    // 276, 100%, 40%
 
 
-    // primary: (l: number) => `hsla(23, 93%, ${l}%, 1)`,
-    // secondary: (l: number) => `hsla(31, 94%, ${l}%, 1)`,
-
-    // 102, 65%, 80%
-    // primary: (l: number) => `hsla(102, 65%, ${l}%, 1)`,
-    // 191, 50%, 44%
-    primary: (l: number) => `hsla(191, 50%, ${l}%, 1)`,
     // 102, 65%, 40%
     // primary: (l: number) => `hsla(102, 65%, ${l}%, 1)`,
-    // 53, 98%, 65%
-    // primary: (l: number) => `hsla(53, 98%, ${l + 25}%, 1)`,
+    // 191, 50%, 44%
+    // primary: (l: number) => `hsla(191, 50%, ${l}%, 1)`,
     // 208, 79%, 79%
-    // primary: (l: number) => `hsla(208, 79%, ${l}%, 1)`,
-    // primary: (l: number) => `hsla(208, 79%, ${l + 39}%, 1)`,
+    primary: (l: number) => `hsla(208, 79%, ${l}%, 1)`,
 
     // 184, 10%, 33%
     secondary: (l: number) => `hsla(184, 10%, ${l}%, 1)`,
@@ -41,9 +26,6 @@ const palette = {
     // 53, 98%, 65%
     // 53, 98%, 40%
     // neutralVariant: (l: number) => `hsla(53, 98%, ${l}%, 1)`,
-
-    // 354, 65%, 59%
-    // 4, 71%, 62%
 
     error: (l: number) => `hsla(3, 71%, ${l}%, 1)`,
 }
