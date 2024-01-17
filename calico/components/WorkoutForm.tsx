@@ -6,6 +6,7 @@ import { Text, TextInput, HelperText, useTheme, Button } from 'react-native-pape
 import DropDown from "react-native-paper-dropdown";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { AsyncStorageNamespace, getAsyncStorageKey } from '../utils';
 
 const styles = StyleSheet.create({
     container: {
@@ -48,11 +49,11 @@ type Workout = {
 
 const addWorkout = async (workout: Workout) => {
     try {
-        const d = workout.date;
-        const t = workout.time;
-        const date = new Date(d.year, d.month, d.date, t.hours, t.minutes)
-        const dateString = date.toISOString();
-        const key = `workout/${dateString}`
+        const key = getAsyncStorageKey(
+            AsyncStorageNamespace.Workout,
+            workout.date,
+            workout.time
+        );
         await AsyncStorage.setItem(key, JSON.stringify(workout));
     } catch (e) {
         // TODO: Error Snackbar
@@ -76,21 +77,6 @@ const WorkoutForm = () => {
     const [hrAvg, setHrAvg] = useState<string>("");
     const [fatBurnPercent, setFatBurnPercent] = useState<string>("");
     const [comments, setComments] = useState<string>("");
-
-    console.log(time);
-
-    useEffect(() => {
-        async function fetchMyAPI() {
-            const d = date;
-            const t = time;
-            const key = `workout/${d?.year}-${d?.month}-${d?.date}/${t?.hours}:${t?.minutes}`
-            const value = await AsyncStorage.getItem(key);
-            console.log("---");
-            console.log(JSON.stringify(value));
-            console.log("---");
-        }
-        fetchMyAPI()
-    }, []);
 
     return (
         <KeyboardAvoidingView style={styles.container}>

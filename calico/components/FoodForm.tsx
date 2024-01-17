@@ -3,6 +3,9 @@ import { StyleSheet, KeyboardAvoidingView, ScrollView, View } from 'react-native
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
 import { Text, TextInput, Button } from 'react-native-paper';
+import { AsyncStorageNamespace, getAsyncStorageKey } from '../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,7 +22,34 @@ const styles = StyleSheet.create({
     }
 });
 
+type Food = {
+    date: DatePickerInputState;
+    time: TimePickerInputState;
+    name: string;
+    from: string;
+    quantity: number;
+    unit: string;
+    servings: number;
+    comments: string;
+}
+
+const addFood = async (food: Food) => {
+    try {
+        const key = getAsyncStorageKey(
+            AsyncStorageNamespace.Food,
+            food.date,
+            food.time
+        );
+        await AsyncStorage.setItem(key, JSON.stringify(food));
+    } catch (e) {
+        // TODO: Error Snackbar
+        console.log("Failed to save weight!");
+    }
+}
+
 const FoodForm = () => {
+    const navigation = useNavigation();
+
     const [date, setDate] = useState<DatePickerInputState | undefined>(undefined);
     const [time, setTime] = useState<TimePickerInputState | undefined>(undefined);
 
@@ -86,7 +116,23 @@ const FoodForm = () => {
                 />
                 <Button
                     mode="contained"
-                    onPress={() => console.log('Pressed')}
+                    onPress={async () => {
+                        if (date && time) {
+                            await addFood({
+                                date: date,
+                                time: time,
+                                name: name,
+                                from: from,
+                                quantity: Number(quantity),
+                                unit: unit,
+                                servings: Number(servings),
+                                comments: comments,
+                            });
+                            navigation.goBack();
+                        } else {
+                            console.log("TODO");
+                        }
+                    }}
                     style={styles.button}
                 >
                     Submit

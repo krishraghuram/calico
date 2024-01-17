@@ -3,6 +3,9 @@ import { StyleSheet, KeyboardAvoidingView, ScrollView, View } from 'react-native
 import { TimePickerInput, TimePickerInputState } from './TimePickerInput';
 import { DatePickerInput, DatePickerInputState } from './DatePickerInput';
 import { Text, TextInput, HelperText, Button } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AsyncStorageNamespace, getAsyncStorageKey } from '../utils';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,8 +22,29 @@ const styles = StyleSheet.create({
     }
 });
 
-const WeightForm = () => {
+type Weight = {
+    weight: number;
+    date: DatePickerInputState;
+    time: TimePickerInputState;
+    comments?: string;
+}
 
+const addWeight = async (weight: Weight) => {
+    try {
+        const key = getAsyncStorageKey(
+            AsyncStorageNamespace.Weight,
+            weight.date,
+            weight.time
+        );
+        await AsyncStorage.setItem(key, JSON.stringify(weight));
+    } catch (e) {
+        // TODO: Error Snackbar
+        console.log("Failed to save weight!");
+    }
+}
+
+const WeightForm = () => {
+    const navigation = useNavigation();
     const [weight, setWeight] = useState<string>("");
 
     const [date, setDate] = useState<DatePickerInputState | undefined>(undefined);
@@ -34,7 +58,6 @@ const WeightForm = () => {
                 Add a Weight
             </Text>
             <ScrollView>
-
                 <TextInput
                     label="Weight (lb)"
                     value={weight}
@@ -64,7 +87,19 @@ const WeightForm = () => {
                 />
                 <Button
                     mode="contained"
-                    onPress={() => console.log('Pressed')}
+                    onPress={async () => {
+                        if (date && time) {
+                            await addWeight({
+                                weight: Number(weight),
+                                date: date,
+                                time: time,
+                                comments: comments,
+                            });
+                            navigation.goBack();
+                        } else {
+                            console.log("TODO");
+                        }
+                    }}
                     style={styles.button}
                 >
                     Submit
